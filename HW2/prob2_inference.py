@@ -150,6 +150,9 @@ def query_true_joint(joint, query_vars, evidence):
     total = sum(result.values())
     return {k: v/total for k, v in result.items()} if total > 0 else result
 
+def get_bit(sample, var):
+    return (sample >> var) & 1
+
 if __name__ == "__main__":
     data_dir = '/Users/skarjagi6/Library/CloudStorage/Dropbox-GaTech/Shreesh Karjagi/coursework/GRAPH_ML/HWK2/Data-HWK2/Data-Problem-2'
     joint = load_joint(f'{data_dir}/joint.dat')
@@ -186,3 +189,19 @@ if __name__ == "__main__":
         print(f"True joint: {dict(sorted(true_r.items()))}")
         print(f"VE model:   {dict(sorted(ve_r.values.items()))}")
         print(f"VE time: {t_ve:.4f}s")
+    
+    samples_arr = np.array(samples)
+
+    t0 = time.time()
+    mask_q1 = (samples_arr >> 11 & 1 == 1) & (samples_arr >> 8 & 1 == 1)
+    matching = samples_arr[mask_q1]
+    flu1 = np.mean((matching >> 1) & 1)
+    t_sc1 = time.time() - t0
+    print(f"\nQ1 sample counting: P(HasFlu=0)={1-flu1:.4f}, P(HasFlu=1)={flu1:.4f}, time: {t_sc1:.2f}s")
+
+    t0 = time.time()
+    mask_q3 = (samples_arr >> 0 & 1 == 1)
+    matching3 = samples_arr[mask_q3]
+    vom1 = np.mean((matching3 >> 10) & 1)
+    t_sc3 = time.time() - t0
+    print(f"Q3 sample counting: P(Vomits=0)={1-vom1:.4f}, P(Vomits=1)={vom1:.4f}, time: {t_sc3:.2f}s")
