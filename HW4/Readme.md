@@ -1,4 +1,4 @@
-# HWK3 Code - Shreesh Karjagi
+# HWK4 Code - Shreesh Karjagi
 
 ## Setup
 All code is Python 3. You'll need `numpy`, `scipy`, and `matplotlib` installed (`pip install numpy scipy matplotlib`).
